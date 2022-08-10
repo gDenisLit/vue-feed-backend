@@ -36,7 +36,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const authRoutes = require('./api/auth/auth.routes')
 const userRoutes = require('./api/user/user.routes')
-const itemRoutes = require('./api/item/item.routes')
+const feedRoutes = require('./api/feed/feed.routes')
 const { setupSocketAPI } = require('./services/socket.service')
 
 // routes
@@ -46,11 +46,11 @@ const { setupSocketAPI } = require('./services/socket.service')
 
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
-app.use('/api/item', itemRoutes)
+app.use('/api/feed', feedRoutes)
 setupSocketAPI(http)
 
 // Make every server-side-route to match the index.html
-// so when requesting http://localhost:3030/index.html/item/123 it will still respond with
+// so when requesting http://localhost:3030/index.html/feed/123 it will still respond with
 // our SPA (single page app) (the index.html file) and allow vue-router to take it from there
 app.get('/**', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'))
