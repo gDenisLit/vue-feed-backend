@@ -6,7 +6,7 @@ async function getfeeds(req, res) {
   try {
     logger.debug('Getting feeds')
     var queryParams = req.query
-    const feeds = await feedService.query()
+    const feeds = await feedService.query(queryParams)
     res.json(feeds)
   } catch (err) {
     logger.error('Failed to get feeds', err)
