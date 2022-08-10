@@ -42,7 +42,7 @@ async function add(feed) {
         const collection = await dbService.getCollection('feed')
         feed.createdAt = Date.now()
         feed.imgId = md5(feed.email)
-        const {insertedId} = await collection.insertOne(feed)
+        const { insertedId } = await collection.insertOne(feed)
         feed._id = insertedId
         return feed
     } catch (err) {
@@ -74,12 +74,13 @@ module.exports = {
 
 function _buildCriteria(filterBy = {}) {
     const criteria = {}
-
-    // if (filterBy?.txt) {
-    //     criteria.name = { $regex: filterBy.txt, $options: 'i' }
-    //     criteria.email = { $regex: filterBy.txt, $options: 'i' }
-    //     criteria.txt = { $regex: filterBy.txt, $options: 'i' }
-    // }
+    if (filterBy?.txt) {
+        criteria['$or'] = [
+            {name: { $regex: filterBy.txt, $options: 'i' }},
+            {email: { $regex: filterBy.txt, $options: 'i' }},
+            {txt: { $regex: filterBy.txt, $options: 'i' }}
+        ]
+    }
     return criteria
 }
 
